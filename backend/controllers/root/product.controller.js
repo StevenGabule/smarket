@@ -13,7 +13,7 @@ exports.indexProductHandler = async (req, res) => {
 exports.storeProductHandler = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = req.file.filename;
+      req.body.avatar = req.file.filename;
     }
 
     if (typeof req.body.image !== 'undefined' && req.body.image.length === 0) {

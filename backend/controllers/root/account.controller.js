@@ -2,7 +2,11 @@ const User = require('../../models/user.model')
 
 exports.indexUserHandler = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({})
+      .populate('streetId')
+      .populate('barangayId')
+      .populate('municipalityId')
+      .populate('province_id');
     return res.status(200).json(users)
   } catch (e) {
     console.log(e.message)
@@ -12,6 +16,14 @@ exports.indexUserHandler = async (req, res) => {
 
 exports.storeUserHandler = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.avatar = req.file.filename;
+    }
+
+    if (typeof req.body.avatar !== 'undefined' && req.body.avatar.length === 0) {
+      delete req.body.avatar;
+    }
+
     const user = await User.create(req.body);
     return res.status(201).json(user)
   } catch (e) {

@@ -1,7 +1,13 @@
 const Municipality = require('../../models/municipality.model')
 
 exports.indexMunicipalityHandler = async (req, res) => {
-  res.send('index')
+  try {
+    const municipalities = await Municipality.find();
+    return res.status(200).json(municipalities)
+  } catch (e) {
+    console.log(e.message)
+    return res.status(500).send(e.message)
+  }
 }
 
 exports.storeMunicipalityHandler = async (req, res) => {

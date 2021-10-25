@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const Password = require('../service/Password')
+const config = require('config')
+const URL_HOST = `${config.get('port')}:${config.get('URL')}`
 
 const {ObjectId} = mongoose.Schema.Types;
 const userSchema = new mongoose.Schema({
@@ -20,9 +23,20 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true, versionKey: false, toJSON: {
     transform(_doc, ret) {
+      if (ret.avatar != null) {
+        ret.avatar =  `${URL_HOST}/user/${ret.avatar}`
+      }
       delete ret.password
     }
   }
+})
+
+userSchema.pre('save', async function(next) {
+  if (this.isModified('password')) {
+    const hashed=  await Password.toHash(this.get('password'))
+    this.set('password', hashed)
+  }
+  next();
 })
 
 const User = mongoose.model('User', userSchema)
