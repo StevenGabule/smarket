@@ -8,6 +8,7 @@ const rootStoreProduct = require('./rootStoreProduct.route')
 const rootBarangay = require('./rootBarangay.route')
 const rootStreet = require('./rootStreet.route')
 const rootAccount = require('./rootAccount.route')
+const rootAuth = require('./auth.route')
 
 router.use('/root/vendor', rootStore)
 router.use('/root/province', rootProvince)
@@ -18,5 +19,6 @@ router.use('/root/store-product', rootStoreProduct)
 router.use('/root/barangay', rootBarangay)
 router.use('/root/street', rootStreet)
 router.use('/root/account', rootAccount)
+router.use('/auth', rootAuth)
 
 module.exports = router;

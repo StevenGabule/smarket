@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   barangayId: {type: ObjectId, ref: "Barangay"},
   municipalityId: {type: ObjectId, ref: "Municipality"},
   province_id: {type: ObjectId, ref: "Province"},
-  userType: {type: Number, required: true}, // '0-root|1-Admin|2-Cashiers|3-checker|4-Getters|5-driver|6-inventories|7-customers'
+  userType: {type: Number, required: true, default: 7}, // '0-root|1-Admin|2-Cashiers|3-checker|4-Getters|5-driver|6-inventories|7-customers'
   emailVerifiedAt: {type: Date},
   status: {type: Boolean, default: true},
 }, {
@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     }
   }
 })
+
+userSchema.statics.build = (attrs) => {
+  return new User(attrs)
+}
 
 userSchema.pre('save', async function(next) {
   if (this.isModified('password')) {
