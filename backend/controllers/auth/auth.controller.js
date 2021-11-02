@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
       jwt: userJWT
     }
 
-    return res.json(existingUser)
+    return res.json({existingUser,token : userJWT})
   } catch (e) {
     console.log(e.message)
     return res.status(500).json({message: e.message})

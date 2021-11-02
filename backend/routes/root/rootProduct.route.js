@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const store = require('../controllers/root/product.controller')
-const {rootProductFile} = require("../middleware/fileProductUpload");
+const store = require('../../controllers/root/product.controller')
+const {rootProductFile} = require("../../middleware/fileProductUpload");
 
 router.get('/', store.indexProductHandler)
 router.post('/store', [rootProductFile], store.storeProductHandler)

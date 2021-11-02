@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const store = require('../controllers/root/province.controller')
+const store = require('../../controllers/root/province.controller')
 router.get('/', store.indexProvinceHandler)
 router.get('/create', store.createProvinceHandler)
 router.post('/store', store.storeProvinceHandler)

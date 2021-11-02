@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const store = require('../controllers/root/barangay.controller')
-const { validate } = require('../validations');
-const {rules: streetBarangayRules} = require('../validations/barangay/store');
+const store = require('../../controllers/root/barangay.controller')
+const { validate } = require('../../validations');
+const {rules: streetBarangayRules} = require('../../validations/barangay/store');
 
 router.get('/', store.indexBarangayHandler)
 router.post('/store', streetBarangayRules, validate, store.storeBarangayHandler)

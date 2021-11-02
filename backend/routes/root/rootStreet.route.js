@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const store = require('../controllers/root/street.controller')
-const { validate } = require('../validations');
-const {rules: streetStoreRules} = require('../validations/street/store');
+const store = require('../../controllers/root/street.controller')
+const { validate } = require('../../validations');
+const {rules: streetStoreRules} = require('../../validations/street/store');
 
 router.get('/', store.indexStreetHandler)
 router.post('/store', streetStoreRules, validate,store.storeStreetHandler)
