@@ -1,0 +1,3 @@
+export const SHIPPING_ADDRESS = {
+  SAVE_SHIPPING: 'SAVE_SHIPPING',
+}

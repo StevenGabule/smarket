@@ -7,26 +7,23 @@ const JWT_SECRET = config.get('JWT_SECRET')
 exports.login = async (req, res) => {
   try {
     const {email, password} = req.body;
-    const existingUser = await User.findOne({email})
-
-    if (!existingUser) return res.status(400).json({message: 'Email not found!'})
-
-    const passwordMatch = await Password.compare(existingUser.password, password)
-
+    const user = await User.findOne({email})
+    if (!user) return res.status(400).json({message: 'Email not found!'})
+    const passwordMatch = await Password.compare(user.password, password)
     if (!passwordMatch) return res.status(400).json({message: 'Password not found!'})
 
     const userJWT = jwt.sign({
-      id: existingUser.id,
-      name: existingUser.name,
-      email: existingUser.email,
-      userType: existingUser.userType,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      userType: user.userType,
     }, JWT_SECRET)
 
     req.session = {
       jwt: userJWT
     }
 
-    return res.json({existingUser,token : userJWT})
+    return res.json({user, token: userJWT})
   } catch (e) {
     console.log(e.message)
     return res.status(500).json({message: e.message})
@@ -37,7 +34,7 @@ exports.register = async (req, res) => {
   try {
     const {name, email, password, phoneNumber, userType} = req.body;
     const existingUser = await User.findOne({email})
-    if (existingUser) return res.status(400).json({error: "Email is already used"})
+    if (existingUser) return res.status(400).json({message: "Email is already used"})
     const user = User.build({name, email, password, phoneNumber, userType})
     await user.save();
 
@@ -51,7 +48,7 @@ exports.register = async (req, res) => {
     req.session = {
       jwt: userJWT
     }
-    return res.status(201).json(user);
+    return res.status(201).json({user, token: userJWT});
   } catch (e) {
     console.log(e.message)
     return res.status(500).json({message: e.message})
