@@ -10,6 +10,7 @@ import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
+import MyOrderPage from "./pages/MyOrderPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path={'/order/:id'} component={OrderPage} exact />
           <Route path={'/login'} component={LoginPage} exact />
           <Route path={'/register'} component={RegisterPage} exact />
+          <Route path={'/my-order-lists'} component={MyOrderPage} exact />
         </Container>
       </main>
     </Router>

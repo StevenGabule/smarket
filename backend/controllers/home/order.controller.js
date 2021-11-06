@@ -33,7 +33,7 @@ exports.updateOrderToPaid = async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(400).json({message: "Order not found or not exists!"})
     order.isPaid = true;
-    order.paidAt= Date.now();
+    order.paidAt = Date.now();
     order.paymentResult = {
       id: req.body.id,
       status: req.body.status,
@@ -42,6 +42,16 @@ exports.updateOrderToPaid = async (req, res) => {
     }
     const updatedOrder = await order.save();
     return res.status(201).json(updatedOrder)
+  } catch (e) {
+    console.log(e.message)
+    return res.status(500).send(e.message)
+  }
+}
+
+exports.getUserOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({user: req.user._id});
+    return res.json(orders)
   } catch (e) {
     console.log(e.message)
     return res.status(500).send(e.message)

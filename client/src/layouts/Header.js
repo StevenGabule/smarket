@@ -2,8 +2,10 @@ import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../store/actions/auth.action";
+import { useHistory } from "react-router-dom";
 
 function Header() {
+  const history = useHistory();
   const dispatch = useDispatch()
   const {userLogin, cart} = useSelector((state) => state)
   const {userInfo} = userLogin;
@@ -11,6 +13,9 @@ function Header() {
 
   function handleLogout(){
     dispatch(logout())
+  }
+  function redirectToOrders(){
+    history.push('/my-order-lists')
   }
 
   return (
@@ -36,6 +41,9 @@ function Header() {
             {userInfo ? (
               <Nav>
                 <NavDropdown title={userInfo.user.name}>
+                  <NavDropdown.Item onClick={redirectToOrders}>
+                    Orders
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>
                     Logout
                   </NavDropdown.Item>

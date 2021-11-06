@@ -13,6 +13,7 @@ export const createOrder = order => async (dispatch, getState) => {
       payload: data
     })
     dispatch({type: CART.CART_EMPTY});
+    localStorage.removeItem('cartItems');
   } catch (e) {
     dispatch({
       type: ORDER.CREATE_FAIL,
@@ -46,6 +47,24 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
   } catch (e) {
     dispatch({
       type: ORDER.PAY_FAIL,
+      payload: e.response && e.response.data.message ? e.response.data.message : e.message
+    })
+  }
+}
+
+export const listMyOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({type: ORDER.LIST_MY_REQUEST})
+    const {userLogin: {userInfo: {token}}} = getState();
+    const config = {headers: {authorization: `Bearer ${token}`, contentType: 'application/json'}}
+    const {data} = await axios.get('/order/customer/my-order-lists', config);
+    dispatch({
+      type: ORDER.LIST_MY_SUCCESS,
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: ORDER.LIST_MY_FAIL,
       payload: e.response && e.response.data.message ? e.response.data.message : e.message
     })
   }
