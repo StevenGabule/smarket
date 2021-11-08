@@ -3,19 +3,19 @@ const config = require('config')
 const PORT = config.get('port');
 const URL = config.get('URL');
 const URL_HOST = `${URL}:${PORT}`
-const {ObjectId} = mongoose.Schema.Types;
+const {ObjectId, String, Date} = mongoose.Schema.Types;
 
 const productSchema = new mongoose.Schema({
   productCode: {type: String, required: true},
-  mainCategoryId: {type: ObjectId, required: true, ref: 'Category'},
-  SubCategoryId: {type: ObjectId, ref: 'Category'},
+  mainCategory: {type: ObjectId, required: true, ref: 'Category'},
+  SubCategory: {type: ObjectId, ref: 'Category'},
   title: {type: String, required: true},
   slug: {type: String, required: true},
   shortDescription: {type: String, required: true},
   longDescription: {type: String, required: true},
   unit: {type: String, required: true},
   image: {type: String},
-  deleted_at: {type: Date},
+  deletedAt: {type: Date},
 }, {
   timestamps: true,
   versionKey: false,
